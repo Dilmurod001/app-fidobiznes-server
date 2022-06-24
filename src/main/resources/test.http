@@ -1,0 +1,90 @@
+
+### DELIVERY TYPE
+###
+POST http://localhost:80/api/delivery-type
+Content-Type: application/json
+
+{
+  "name": "Telephone Message1"
+}
+
+### GET ALL
+GET http://localhost:80/api/delivery-type
+
+### GET BY ID
+GET http://localhost:80/api/delivery-type/1
+
+### EDIT
+PUT http://localhost:80/api/delivery-type/2
+Content-Type: application/json
+
+{
+  "name": "Email"
+}
+
+### DELETE BY ID
+DELETE http://localhost:80/api/delivery-type/4
+
+
+### DOC SENDER
+###
+POST http://localhost:80/api/sender
+Content-Type: application/json
+Accept-Language: En
+
+{
+  "name": "Micro bank45"
+}
+
+### GET ALL
+GET http://localhost:80/api/sender
+
+### GET BY ID
+GET http://localhost:80/api/sender/1
+
+### EDIT
+PUT http://localhost:80/api/sender/2
+Content-Type:application/json
+
+{
+  "name": "Xalq bank"
+}
+
+### DELETE
+DELETE http://localhost:80/api/sender/2
+
+
+###  FORM DOCUMENT
+###
+POST http://localhost:80/api/document
+Content-Type: application/json
+
+{
+  "access": true,
+  "expireDate": "2022-07-02",
+  "cardControl": false,
+  "regDate": "2022-06-02",
+  "sendDate": "2022-06-02",
+  "regNum": "12122",
+  "sendDocNum": "22323",
+  "descriptionReference": "Agro bank uchun",
+  "theme": "Translate",
+  "deliveryType": 2,
+  "docSender": 1,
+  "attachment": null
+}
+
+### SORT
+GET http://localhost:80/api/document/sort?name=theme&isSort=true
+
+### REPORT
+### CB || GNI || TSJ
+GET http://localhost:80/api/report/cb-email?docSender=TSJ
+
+
+### UNIQUE
+### REGNUM ADD
+GET http://localhost:80/api/document/unique?regNum=123&id=0
+
+### REGNUM ADD
+GET http://localhost:80/api/document/unique?regNum=123&id=2
