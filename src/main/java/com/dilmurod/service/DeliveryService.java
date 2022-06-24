@@ -74,7 +74,7 @@ public class DeliveryService {
                 return new ApiResponse(MessageService.getMessage("NAME_REQUIRED"), false);
 
             Optional<DeliveryType> deliveryTypeOptional = deliveryTypeRepository.findByIdAndActive(id, true);
-            if (deliveryTypeOptional.isEmpty()) return new ApiResponse(MessageService.getMessage("NOT_FOUND"), false);
+            if (!deliveryTypeOptional.isPresent()) return new ApiResponse(MessageService.getMessage("NOT_FOUND"), false);
 
             Optional<DeliveryType> byNameAndActive = deliveryTypeRepository.findByNameAndActive(deliveryType.getName(), false);
             if (byNameAndActive.isPresent()) {

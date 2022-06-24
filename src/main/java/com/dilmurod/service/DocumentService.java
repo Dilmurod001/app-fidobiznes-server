@@ -57,16 +57,17 @@ public class DocumentService {
             if (documentDto.getAttachmentId() != null && documentDto.getAttachmentId() != 0) {
 
                 Optional<Attachment> attachmentOptional = attachmentRepository.findById(documentDto.getAttachmentId());
-                if (attachmentOptional.isEmpty()) return new ApiResponse(MessageService.getMessage("NOT_FOUND"), false);
+                if (!attachmentOptional.isPresent())
+                    return new ApiResponse(MessageService.getMessage("NOT_FOUND"), false);
                 formDocument.setAttachment(attachmentOptional.get());
             }
 
             Optional<DeliveryType> optionalDeliveryType = deliveryTypeRepository.findById(documentDto.getDeliveryTypeId());
-            if (optionalDeliveryType.isEmpty())
+            if (!optionalDeliveryType.isPresent())
                 return new ApiResponse(MessageService.getMessage("NOT_FOUND"), false, "Delivery Type");
 
             Optional<DocSender> docSenderOptional = docSenderRepository.findById(documentDto.getDocSenderId());
-            if (docSenderOptional.isEmpty())
+            if (!docSenderOptional.isPresent())
                 return new ApiResponse(MessageService.getMessage("NOT_FOUND"), false, "Doc Sender");
 
             if (documentDto.getExpireDate() != null && documentDto.getExpireDate().getTime() < documentDto.getRegDate().getTime()) {
@@ -134,7 +135,7 @@ public class DocumentService {
     public ApiResponse edit(FormDocumentDto documentDto, Integer id) {
         try {
             Optional<FormDocument> formDocumentOptional = formDocumentRepository.findById(id);
-            if (formDocumentOptional.isEmpty())
+            if (formDocumentOptional.isPresent())
                 return new ApiResponse(MessageService.getMessage("NOT_FOUND"), false, "Document");
 
             FormDocument formDocument = formDocumentOptional.get();
@@ -142,17 +143,17 @@ public class DocumentService {
             if (documentDto.getAttachmentId() != null && documentDto.getAttachmentId() != 0) {
 
                 Optional<Attachment> attachmentOptional = attachmentRepository.findById(documentDto.getAttachmentId());
-                if (attachmentOptional.isEmpty())
+                if (!attachmentOptional.isPresent())
                     return new ApiResponse(MessageService.getMessage("NOT_FOUND"), false, "Attachment");
                 formDocument.setAttachment(attachmentOptional.get());
             }
 
             Optional<DeliveryType> optionalDeliveryType = deliveryTypeRepository.findById(documentDto.getDeliveryTypeId());
-            if (optionalDeliveryType.isEmpty())
+            if (!optionalDeliveryType.isPresent())
                 return new ApiResponse(MessageService.getMessage("NOT_FOUND"), false, "DeliveryType");
 
             Optional<DocSender> docSenderOptional = docSenderRepository.findById(documentDto.getDocSenderId());
-            if (docSenderOptional.isEmpty())
+            if (!docSenderOptional.isPresent())
                 return new ApiResponse(MessageService.getMessage("NOT_FOUND"), false, "Correspondent");
 
             if (documentDto.getExpireDate() != null && documentDto.getExpireDate().getTime() < documentDto.getRegDate().getTime()) {
@@ -185,9 +186,7 @@ public class DocumentService {
     public ApiResponse byId(Integer id) {
         try {
             Optional<FormDocument> formDocumentOptional = formDocumentRepository.findById(id);
-            if (formDocumentOptional.isEmpty()) return new ApiResponse(MessageService.getMessage("NOT_FOUND"), false);
-
-            return new ApiResponse("Ok !", true, formDocumentOptional.get());
+            return formDocumentOptional.map(formDocument -> new ApiResponse("Ok !", true, formDocument)).orElseGet(() -> new ApiResponse(MessageService.getMessage("NOT_FOUND"), false));
 
         } catch (Exception e) {
             return new ApiResponse(MessageService.getMessage("INTERNAL_SERVER_ERROR"), false);
