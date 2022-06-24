@@ -135,7 +135,7 @@ public class DocumentService {
     public ApiResponse edit(FormDocumentDto documentDto, Integer id) {
         try {
             Optional<FormDocument> formDocumentOptional = formDocumentRepository.findById(id);
-            if (formDocumentOptional.isPresent())
+            if (!formDocumentOptional.isPresent())
                 return new ApiResponse(MessageService.getMessage("NOT_FOUND"), false, "Document");
 
             FormDocument formDocument = formDocumentOptional.get();

@@ -46,7 +46,7 @@ public class DeliveryService {
 
         try {
             Optional<DeliveryType> deliveryTypeOptional = deliveryTypeRepository.findByIdAndActive(id, true);
-            return deliveryTypeOptional.map(deliveryType -> new ApiResponse("Ok", true, deliveryType)).orElseGet(() -> new ApiResponse("Not Found delivery type", false));
+            return deliveryTypeOptional.map(deliveryType -> new ApiResponse("Ok", true, deliveryType)).orElseGet(() -> new ApiResponse(MessageService.getMessage("NOT_FOUND"), false));
 
         } catch (Exception e) {
             return new ApiResponse(MessageService.getMessage("INTERNAL_SERVER_ERROR"), false);

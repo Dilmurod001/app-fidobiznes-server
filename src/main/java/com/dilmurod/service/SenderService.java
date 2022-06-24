@@ -74,7 +74,7 @@ public class SenderService {
             if (docSender.getName() == null) return new ApiResponse(MessageService.getMessage("NAME_REQUIRED"), false);
 
             Optional<DocSender> docSenderOptional = docSenderRepository.findByIdAndActive(id, true);
-            if (docSenderOptional.isPresent()) return new ApiResponse(MessageService.getMessage("NOT_FOUND"), false);
+            if (!docSenderOptional.isPresent()) return new ApiResponse(MessageService.getMessage("NOT_FOUND"), false);
 
             Optional<DocSender> byNameAndActive = docSenderRepository.findByNameAndActive(docSender.getName(), false);
             if (byNameAndActive.isPresent()) {
