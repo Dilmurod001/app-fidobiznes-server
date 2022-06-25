@@ -39,7 +39,9 @@
     "languageRU": "Russian",
     "languageEN": "English",
     "information": "No information found on this !",
-    "name": "Name"
+    "name": "Name",
+    "nextLabel": "Next",
+    "previousLabel": "Previous"
   },
   "FORM": {
     "header": "Adding",

@@ -39,7 +39,9 @@
     "languageRU": "Русский",
     "languageEN": "Английский",
     "information": "Информации по этому поводу не нашел !",
-    "name": "Имя"
+    "name": "Имя",
+    "nextLabel": "Следующий",
+    "previousLabel": "Последний"
   },
   "FORM": {
     "header": "Добавление",

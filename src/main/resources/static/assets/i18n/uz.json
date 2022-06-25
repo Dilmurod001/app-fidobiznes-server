@@ -39,7 +39,9 @@
     "languageRU": "Ruscha",
     "languageEN": "Ingilizcha",
     "information": "Bu haqda hech qanday ma'lumot topilmadi !",
-    "name": "Ismi"
+    "name": "Ismi",
+    "nextLabel": "Keyingi",
+    "previousLabel": "Oldingi"
   },
   "FORM": {
     "header": "Qo'shish",
