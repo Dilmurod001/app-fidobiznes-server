@@ -54,6 +54,12 @@ public class FormDocumentController {
         return ResponseEntity.ok(uniqueRegNum);
     }
 
+    @GetMapping("/search")
+    public HttpEntity<?> searchFast(@RequestParam String value) {
+        ApiResponse apiResponse = documentService.search(value);
+        return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
+    }
+
     @PostMapping("/filter")
     public HttpEntity<?> filter(@RequestBody FormDocSort formDocSort) {
         ApiResponse apiResponse = documentService.filter(formDocSort);

@@ -15,7 +15,7 @@
     "regDate": "Дата.рег",
     "sendDoc": "№ исх.док-та",
     "sendDate": "Дата исх.док-та",
-    "delivery_type": "Форма доставки",
+    "delivery_type": "Доставки",
     "correspondent": "Корреспондент",
     "theme": "Тема",
     "description": "Описание",
@@ -41,7 +41,8 @@
     "information": "Информации по этому поводу не нашел !",
     "name": "Имя",
     "nextLabel": "Следующий",
-    "previousLabel": "Последний"
+    "previousLabel": "Последний",
+    "search": "Быстрый поиск..."
   },
   "FORM": {
     "header": "Добавление",
@@ -86,7 +87,8 @@
   "FILTER": {
     "from": "До",
     "selected": "Не выбранo",
-    "filter": "Фильтр"
+    "filter": "Фильтр",
+    "clear": "Очистить"
   },
   "NOTFOUND": {
     "loginButton": "ДОМ"

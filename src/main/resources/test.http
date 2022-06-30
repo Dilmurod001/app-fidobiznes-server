@@ -88,3 +88,8 @@ GET http://localhost:80/api/document/unique?regNum=123&id=0
 
 ### REGNUM ADD
 GET http://localhost:80/api/document/unique?regNum=123&id=2
+
+
+### FAST SEARCH
+###
+GET http://localhost:80/api/document/search?value=TSJ

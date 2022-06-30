@@ -9,7 +9,6 @@ import org.springframework.data.repository.query.Param;
 
 import java.sql.Date;
 import java.util.List;
-import java.util.Optional;
 
 public interface FormDocumentRepository extends JpaRepository<FormDocument, Integer> {
 //    findAllByRoleAndFullNameContainingIgnoreCaseOrRoleAndRegions_LocationNameContainingIgnoreCaseOrRoleAndRegions_RegionNameContainingIgnoreCaseOrRoleAndNameShopContainingIgnoreCaseOrRoleAndShopOrienterContainingIgnoreCase
@@ -27,7 +26,7 @@ public interface FormDocumentRepository extends JpaRepository<FormDocument, Inte
 
     boolean existsByRegNumAndIdIsNot(String regNum, Integer id);
 
-    List<FormDocument> findAllByThemeContainingIgnoreCaseOrRegNumContainingOrSendDocNumContainingOrDescriptionReferenceContainingIgnoreCaseOrRegDateBetween(String theme, String regNum, String sendDocNum, String descriptionReference, java.util.Date regDate, java.util.Date regDate2);
+    List<FormDocument> findAllByThemeContainingIgnoreCaseOrRegNumContainingOrSendDocNumContainingOrDescriptionReferenceContainingIgnoreCaseOrDocSender_NameContainingIgnoreCaseAndDocSender_ActiveOrDeliveryType_NameContainingIgnoreCaseAndDeliveryType_ActiveOrderByRegDateDesc(String theme, String regNum, String sendDocNum, String descriptionReference, String docSender_name, boolean docSender_active, String deliveryType_name, boolean deliveryType_active);
 
 }
 

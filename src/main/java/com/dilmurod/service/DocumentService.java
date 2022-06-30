@@ -6,6 +6,7 @@ import com.dilmurod.entity.DeliveryType;
 import com.dilmurod.entity.DocSender;
 import com.dilmurod.entity.FormDocument;
 import com.dilmurod.payload.ApiResponse;
+import com.dilmurod.payload.FilterMark;
 import com.dilmurod.payload.FormDocSort;
 import com.dilmurod.payload.FormDocumentDto;
 import com.dilmurod.repository.AttachmentRepository;
@@ -456,20 +457,29 @@ public class DocumentService {
     public ApiResponse filter(FormDocSort filterDto) {
         try {
             List<FormDocSort> formDocSorts = new ArrayList<>();
+            FilterMark filterMark = new FilterMark();
 
-            if (filterDto != null) {
+//            if (filterDto != null){
+            if (filterDto.getRegNum() == null && filterDto.getSendDocNum() == null && filterDto.getSendDate() == null && filterDto.getTheme() == null && filterDto.getRegDate() == null && filterDto.getDeliveryTypeId() == null && filterDto.getCorrespondentId() == null && filterDto.getDescriptionReference() == null && filterDto.getRegDateEnd() == null && filterDto.getSendDateEnd() == null) {
+                String s = ("select d.name , doc.name,f.attachment_id,f.access,f.card_control,f.reg_num,f.expire_date,f.reg_date,f.send_date,f.send_doc_num,f.description_reference,f.theme, f.id from form_document f join delivery_type d  on f.delivery_type_id = d.id join doc_sender doc on f.doc_sender_id = doc.id order by f.reg_date desc ;");
+                formDocSorts = jdbcTemplate.query(s, rowMapper);
+                return new ApiResponse("Ok !", true, formDocSorts);
+
+            } else {
+
                 String baseOperator = "and";
                 StringBuilder query = new StringBuilder()
                         .append("select d.name , doc.name,f.attachment_id,f.access,f.card_control,f.reg_num,f.expire_date,f.reg_date,f.send_date,f.send_doc_num,f.description_reference,f.theme, f.id from form_document f join delivery_type d  on f.delivery_type_id = d.id join doc_sender doc on f.doc_sender_id = doc.id");
 
                 query.append(" where ");
 
-                if (filterDto.getRegNum() != null) {
+                if (filterDto.getRegNum() != null && !filterDto.getRegNum().equals("")) {
                     query
                             .append(" f.reg_num ilike '")
                             .append(filterDto.getRegNum())
                             .append("%' ")
                             .append(baseOperator);
+                    filterMark.setRegNum("on");
                 }
                 if (filterDto.getRegDate() != null && filterDto.getRegDateEnd() != null) {
                     query
@@ -479,13 +489,34 @@ public class DocumentService {
                             .append(filterDto.getRegDateEnd())
                             .append("' ")
                             .append(baseOperator);
+                    filterMark.setRegDate("on");
+                } else if (filterDto.getRegDate() != null) {
+                    Date dateEnd = new Date(filterDto.getRegDate().getTime() + 86400000);
+                    query
+                            .append(" f.reg_date between '")
+                            .append(filterDto.getRegDate())
+                            .append("' and '")
+                            .append(dateEnd)
+                            .append("' ")
+                            .append(baseOperator);
+                    filterMark.setRegDate("on");
+                } else if (filterDto.getRegDateEnd() != null) {
+                    Date dateEnd = new Date(filterDto.getRegDateEnd().getTime() + 86400000);
+                    query.append(" f.reg_date between '")
+                            .append(filterDto.getRegDateEnd())
+                            .append("' and '")
+                            .append(dateEnd)
+                            .append("' ")
+                            .append(baseOperator);
+                    filterMark.setRegDate("on");
                 }
-                if (filterDto.getTheme() != null) {
+                if (filterDto.getTheme() != null && !filterDto.getTheme().equals("")) {
                     query
                             .append(" f.theme ilike '")
                             .append(filterDto.getTheme())
                             .append("%' ")
                             .append(baseOperator);
+                    filterMark.setTheme("on");
                 }
                 if (filterDto.getSendDate() != null && filterDto.getSendDateEnd() != null) {
                     query.append(" f.send_date between '")
@@ -494,29 +525,44 @@ public class DocumentService {
                             .append(filterDto.getSendDateEnd())
                             .append("' ")
                             .append(baseOperator);
+                    filterMark.setSendDate("on");
+                } else if (filterDto.getSendDate() != null) {
+                    query.append(" f.send_date= '")
+                            .append(filterDto.getSendDate()).append("' ")
+                            .append(baseOperator);
+                    filterMark.setSendDate("on");
+                } else if (filterDto.getSendDateEnd() != null) {
+                    query.append(" f.send_date= '")
+                            .append(filterDto.getSendDateEnd()).append("' ")
+                            .append(baseOperator);
+                    filterMark.setSendDate("on");
                 }
                 if (filterDto.getCorrespondentId() != null) {
                     query.append(" f.doc_sender_id=")
                             .append(filterDto.getCorrespondentId()).append(" ")
                             .append(baseOperator);
+                    filterMark.setSenderName("on");
 
                 }
                 if (filterDto.getDeliveryTypeId() != null) {
                     query.append(" f.delivery_type_id=")
                             .append(filterDto.getDeliveryTypeId()).append(" ")
                             .append(baseOperator);
+                    filterMark.setDeliveryType("on");
                 }
                 if (filterDto.getDescriptionReference() != null && !filterDto.getDescriptionReference().isEmpty()) {
                     query.append(" f.description_reference ilike '")
                             .append(filterDto.getDescriptionReference())
                             .append("%' ")
                             .append(baseOperator);
+                    filterMark.setDescriptionReference("on");
                 }
-                if (filterDto.getSendDocNum() != null) {
+                if (filterDto.getSendDocNum() != null && !filterDto.getSendDocNum().equals("")) {
                     query.append(" f.send_doc_num ilike '")
                             .append(filterDto.getSendDocNum())
                             .append("%' ")
                             .append(baseOperator);
+                    filterMark.setSendDocNum("on");
 
                 }
                 String substring = query.substring(0, query.length() - baseOperator.length());
@@ -524,7 +570,44 @@ public class DocumentService {
 //                List<FormDocSort> query1 = jdbcTemplate.query(substring, rowMapper);
                 formDocSorts = jdbcTemplate.query(substring, rowMapper);
             }
-            return new ApiResponse("Ok !", true, formDocSorts);
+
+            return new ApiResponse("Ok !", true, formDocSorts, filterMark);
+
+        } catch (Exception e) {
+            return new ApiResponse(MessageService.getMessage("INTERNAL_SERVER_ERROR"), false);
+        }
+    }
+
+    public ApiResponse search(String value) {
+        try {
+            List<FormDocSort> formDocSortList = new ArrayList<>();
+            List<FormDocument> list = formDocumentRepository.findAllByThemeContainingIgnoreCaseOrRegNumContainingOrSendDocNumContainingOrDescriptionReferenceContainingIgnoreCaseOrDocSender_NameContainingIgnoreCaseAndDocSender_ActiveOrDeliveryType_NameContainingIgnoreCaseAndDeliveryType_ActiveOrderByRegDateDesc(value, value, value, value, value, true, value, true);
+
+            for (FormDocument formDocument : list) {
+                FormDocSort formDocSort = new FormDocSort();
+                if (formDocument.getDescriptionReference() != null) {
+                    formDocSort.setDescriptionReference(formDocument.getDescriptionReference());
+                }
+                formDocSort.setAccess(formDocument.getAccess());
+                formDocSort.setCardControl(formDocument.getCardControl());
+                if (formDocument.getAttachment() != null) {
+                    formDocSort.setAttachmentId(formDocument.getAttachment().getId());
+                }
+                formDocSort.setSendDate(formDocument.getSendDate());
+                formDocSort.setDeliveryType(formDocument.getDeliveryType().getName());
+                formDocSort.setSendDocNum(formDocument.getSendDocNum());
+                formDocSort.setRegDate(formDocument.getRegDate());
+                formDocSort.setId(formDocument.getId());
+                formDocSort.setTheme(formDocument.getTheme());
+                formDocSort.setSenderName(formDocument.getDocSender().getName());
+                formDocSort.setRegNum(formDocument.getRegNum());
+                if (formDocument.getExpireDate() != null) {
+                    formDocSort.setExpireDate(formDocument.getExpireDate());
+                }
+
+                formDocSortList.add(formDocSort);
+            }
+            return new ApiResponse("Ok !", true, formDocSortList);
 
         } catch (Exception e) {
             return new ApiResponse(MessageService.getMessage("INTERNAL_SERVER_ERROR"), false);

@@ -41,7 +41,8 @@
     "information": "No information found on this !",
     "name": "Name",
     "nextLabel": "Next",
-    "previousLabel": "Previous"
+    "previousLabel": "Previous",
+    "search": "Quick search..."
   },
   "FORM": {
     "header": "Adding",
@@ -86,7 +87,8 @@
   "FILTER": {
     "from": "from",
     "selected": "not selected",
-    "filter": "Filter"
+    "filter": "Filter",
+    "clear": "Cleanse"
   },
   "NOTFOUND": {
     "loginButton": "HOME"

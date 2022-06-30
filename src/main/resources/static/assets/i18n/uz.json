@@ -41,7 +41,8 @@
     "information": "Bu haqda hech qanday ma'lumot topilmadi !",
     "name": "Ismi",
     "nextLabel": "Keyingi",
-    "previousLabel": "Oldingi"
+    "previousLabel": "Oldingi",
+    "search": "Tez qidiruv..."
   },
   "FORM": {
     "header": "Qo'shish",
@@ -86,7 +87,8 @@
   "FILTER": {
     "from": "Dan",
     "selected": "Belgilanmagan",
-    "filter": "Filter"
+    "filter": "Filter",
+    "clear": "Tozalash"
   },
   "NOTFOUND": {
     "loginButton": "BOSH SAHIFA"
