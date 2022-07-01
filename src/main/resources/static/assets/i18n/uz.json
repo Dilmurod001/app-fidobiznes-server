@@ -42,7 +42,9 @@
     "name": "Ismi",
     "nextLabel": "Keyingi",
     "previousLabel": "Oldingi",
-    "search": "Tez qidiruv..."
+    "search": "Tez qidiruv...",
+    "sortDesc": "Kamayish bo'yicha tartiblash",
+    "sortAsc": "O'sish bo'yicha tartiblash"
   },
   "FORM": {
     "header": "Qo'shish",

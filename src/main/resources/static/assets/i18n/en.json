@@ -42,7 +42,9 @@
     "name": "Name",
     "nextLabel": "Next",
     "previousLabel": "Previous",
-    "search": "Quick search..."
+    "search": "Quick search...",
+    "sortDesc": "Sort descending",
+    "sortAsc": "Sort ascending"
   },
   "FORM": {
     "header": "Adding",
