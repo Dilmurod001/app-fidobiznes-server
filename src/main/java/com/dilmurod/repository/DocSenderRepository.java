@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface DocSenderRepository extends JpaRepository<DocSender, Integer> {
-    boolean existsByNameAndActive(String name, boolean active);
+    boolean existsByNameIgnoreCaseAndActive(String name, boolean active);
 
-    boolean existsByNameAndActiveAndIdIsNot(String name, boolean active, Integer id);
+    boolean existsByNameIgnoreCaseAndActiveAndIdIsNot(String name, boolean active, Integer id);
 
     Optional<DocSender> findByName(String name);
 

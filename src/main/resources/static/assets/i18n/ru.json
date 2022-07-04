@@ -90,7 +90,8 @@
     "from": "До",
     "selected": "Не выбранo",
     "filter": "Фильтр",
-    "clear": "Очистить"
+    "clear": "Очистить",
+    "reset": "Переустановить"
   },
   "NOTFOUND": {
     "loginButton": "ДОМ"

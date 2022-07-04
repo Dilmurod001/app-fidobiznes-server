@@ -23,8 +23,12 @@ public class FormDocument {
     @Column(nullable = false)
     private java.util.Date regDate;
 
+    private String regDateStr;
+
     @Column(nullable = false)
     private Date sendDate;
+
+    private String sendDateStr;
 
     private Boolean cardControl;
 
@@ -36,7 +40,6 @@ public class FormDocument {
 
     @Column(length = 1000)
     private String descriptionReference;
-
 
     @Column(length = 100, nullable = false)
     private String theme;

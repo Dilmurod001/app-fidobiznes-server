@@ -26,7 +26,7 @@ public interface FormDocumentRepository extends JpaRepository<FormDocument, Inte
 
     boolean existsByRegNumAndIdIsNot(String regNum, Integer id);
 
-    List<FormDocument> findAllByThemeContainingIgnoreCaseOrRegNumContainingOrSendDocNumContainingOrDescriptionReferenceContainingIgnoreCaseOrDocSender_NameContainingIgnoreCaseAndDocSender_ActiveOrDeliveryType_NameContainingIgnoreCaseAndDeliveryType_ActiveOrderByRegDateDesc(String theme, String regNum, String sendDocNum, String descriptionReference, String docSender_name, boolean docSender_active, String deliveryType_name, boolean deliveryType_active);
+    List<FormDocument> findAllByThemeContainingIgnoreCaseOrRegNumContainingOrSendDocNumContainingOrRegDateStrContainingIgnoreCaseOrSendDateStrContainingIgnoreCaseOrDocSender_NameContainingIgnoreCaseAndDocSender_ActiveOrDeliveryType_NameContainingIgnoreCaseAndDeliveryType_ActiveOrderByRegDateDesc(String theme, String regNum, String sendDocNum, String regDateStr, String sendDateStr, String docSender_name, boolean docSender_active, String deliveryType_name, boolean deliveryType_active);
 
 }
 

@@ -28,7 +28,7 @@ public class SenderService {
                 return new ApiResponse(MessageService.getMessage("SUCCESS_SAVE"), true);
             }
 
-            boolean exists = docSenderRepository.existsByNameAndActive(docSender.getName(), true);
+            boolean exists = docSenderRepository.existsByNameIgnoreCaseAndActive(docSender.getName(), true);
             if (exists) return new ApiResponse(MessageService.getMessage("ALREADY_EXISTS"), false);
 
             DocSender sender = new DocSender();
@@ -88,7 +88,7 @@ public class SenderService {
             }
 
 
-            boolean exists = docSenderRepository.existsByNameAndActiveAndIdIsNot(docSender.getName(), true, id);
+            boolean exists = docSenderRepository.existsByNameIgnoreCaseAndActiveAndIdIsNot(docSender.getName(), true, id);
             if (exists) return new ApiResponse(MessageService.getMessage("ALREADY_EXISTS"), false);
 
             DocSender sender = docSenderOptional.get();
@@ -107,10 +107,10 @@ public class SenderService {
         try {
             boolean bool = false;
             if (id == 0) {
-                bool = docSenderRepository.existsByNameAndActive(name, true);
+                bool = docSenderRepository.existsByNameIgnoreCaseAndActive(name, true);
 
             } else if (id > 0) {
-                bool = docSenderRepository.existsByNameAndActiveAndIdIsNot(name, true, id);
+                bool = docSenderRepository.existsByNameIgnoreCaseAndActiveAndIdIsNot(name, true, id);
             }
             return bool;
 

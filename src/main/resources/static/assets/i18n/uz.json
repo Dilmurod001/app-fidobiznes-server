@@ -90,7 +90,8 @@
     "from": "Dan",
     "selected": "Belgilanmagan",
     "filter": "Filter",
-    "clear": "Tozalash"
+    "clear": "Tozalash",
+    "reset": "Qayta o'rnatish"
   },
   "NOTFOUND": {
     "loginButton": "BOSH SAHIFA"

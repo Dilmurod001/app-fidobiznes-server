@@ -17,8 +17,10 @@ public class FormDocSort {
     private Boolean access;
     private Date expireDate;
     private java.util.Date regDate;
+    private String regDateStr;
     private java.util.Date regDateEnd;
     private Date sendDate;
+    private String sendDateStr;
     private Date sendDateEnd;
     private Boolean cardControl;
     private String regNum;

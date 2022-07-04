@@ -90,7 +90,8 @@
     "from": "from",
     "selected": "not selected",
     "filter": "Filter",
-    "clear": "Cleanse"
+    "clear": "Cleanse",
+    "reset": "Reset"
   },
   "NOTFOUND": {
     "loginButton": "HOME"

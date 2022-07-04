@@ -27,7 +27,7 @@ public class DeliveryService {
                 return new ApiResponse(MessageService.getMessage("SUCCESS_SAVE"), true);
             }
 
-            boolean exists = deliveryTypeRepository.existsByNameAndActive(deliveryType.getName(), true);
+            boolean exists = deliveryTypeRepository.existsByNameIgnoreCaseAndActive(deliveryType.getName(), true);
             if (exists) return new ApiResponse(MessageService.getMessage("ALREADY_EXISTS"), false);
 
             DeliveryType deliveryType1 = new DeliveryType();
@@ -87,7 +87,7 @@ public class DeliveryService {
                 return new ApiResponse(MessageService.getMessage("SUCCESS_EDIT"), true);
             }
 
-            boolean exists = deliveryTypeRepository.existsByNameAndActiveAndIdIsNot(deliveryType.getName(), true, id);
+            boolean exists = deliveryTypeRepository.existsByNameIgnoreCaseAndActiveAndIdIsNot(deliveryType.getName(), true, id);
             if (exists) return new ApiResponse(MessageService.getMessage("ALREADY_EXISTS"), false);
 
             DeliveryType deliveryType1 = deliveryTypeOptional.get();
@@ -106,11 +106,11 @@ public class DeliveryService {
         try {
             boolean bool = false;
             if (id == 0) {
-                bool = deliveryTypeRepository.existsByNameAndActive(name, true);
+                bool = deliveryTypeRepository.existsByNameIgnoreCaseAndActive(name, true);
 
             } else if (id > 0) {
 
-                bool = deliveryTypeRepository.existsByNameAndActiveAndIdIsNot(name, true, id);
+                bool = deliveryTypeRepository.existsByNameIgnoreCaseAndActiveAndIdIsNot(name, true, id);
             }
             return bool;
 
