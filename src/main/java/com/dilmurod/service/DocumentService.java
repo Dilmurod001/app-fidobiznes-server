@@ -264,7 +264,7 @@ public class DocumentService {
 
     public ApiResponse sort(Boolean isSort, String name) {
         try {
-            String query = "select d.name , doc.name,f.attachment_id,f.access,f.card_control,f.reg_num,f.expire_date,f.reg_date,f.send_date,f.send_doc_num,f.description_reference,f.theme, f.id from form_document f join delivery_type d  on f.delivery_type_id = d.id join doc_sender doc on f.doc_sender_id = doc.id";
+            String query = "select d.name , doc.name,f.attachment_id,f.access,f.card_control,f.reg_num,f.expire_date,f.reg_date,f.reg_date_str,f.send_date,f.send_date_str,f.send_doc_num,f.description_reference,f.theme, f.id from form_document f join delivery_type d  on f.delivery_type_id = d.id join doc_sender doc on f.doc_sender_id = doc.id";
             List<FormDocument> formDocumentList = new ArrayList<>();
             List<FormDocSort> formDocSortList = new ArrayList<>();
 
