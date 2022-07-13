@@ -544,7 +544,7 @@ public class DocumentService {
 
                 if (filterDto.getRegNum() != null) {
                     query
-                            .append(" f.reg_num ilike '")
+                            .append(" CAST(f.reg_num as text) ilike '")
                             .append(filterDto.getRegNum())
                             .append("%' ")
                             .append(baseOperator);
@@ -627,7 +627,7 @@ public class DocumentService {
                     filterMark.setDescriptionReference("on");
                 }
                 if (filterDto.getSendDocNum() != null) {
-                    query.append(" f.send_doc_num ilike '")
+                    query.append(" CAST(f.send_doc_num as text) ilike '")
                             .append(filterDto.getSendDocNum())
                             .append("%' ")
                             .append(baseOperator);
