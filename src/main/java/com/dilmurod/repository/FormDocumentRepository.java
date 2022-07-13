@@ -22,11 +22,11 @@ public interface FormDocumentRepository extends JpaRepository<FormDocument, Inte
     @Query("select f from FormDocument f where f.docSender.id = :docSender_id and f.theme not like :theme and f.regDate between :regDate and :regDate2")
     List<FormDocument> findByDocSender_IdAndThemeNotLikeAndRegDateBetween(@Param("docSender_id") Integer docSender_id, @Param("theme") String theme, @Param("regDate") Date regDate, @Param("regDate2") Date regDate2);
 
-    boolean existsByRegNum(String regNum);
+    boolean existsByRegNum(Long regNum);
 
-    boolean existsByRegNumAndIdIsNot(String regNum, Integer id);
+    boolean existsByRegNumAndIdIsNot(Long regNum, Integer id);
 
-    List<FormDocument> findAllByThemeContainingIgnoreCaseOrRegNumContainingOrSendDocNumContainingOrRegDateStrContainingIgnoreCaseOrSendDateStrContainingIgnoreCaseOrDocSender_NameContainingIgnoreCaseAndDocSender_ActiveOrDeliveryType_NameContainingIgnoreCaseAndDeliveryType_ActiveOrderByRegDateDesc(String theme, String regNum, String sendDocNum, String regDateStr, String sendDateStr, String docSender_name, boolean docSender_active, String deliveryType_name, boolean deliveryType_active);
+    List<FormDocument> findAllByThemeContainingIgnoreCaseOrRegNumContainingOrSendDocNumContainingOrRegDateStrContainingIgnoreCaseOrSendDateStrContainingIgnoreCaseOrDocSender_NameContainingIgnoreCaseAndDocSender_ActiveOrDeliveryType_NameContainingIgnoreCaseAndDeliveryType_ActiveOrderByRegDateDesc(String theme, Long regNum, Long sendDocNum, String regDateStr, String sendDateStr, String docSender_name, boolean docSender_active, String deliveryType_name, boolean deliveryType_active);
 
 }
 

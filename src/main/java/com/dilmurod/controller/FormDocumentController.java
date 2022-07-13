@@ -49,7 +49,7 @@ public class FormDocumentController {
     }
 
     @GetMapping("/unique")
-    public HttpEntity<?> exitsByRegNum(@RequestParam String regNum, @RequestParam Integer id) {
+    public HttpEntity<?> exitsByRegNum(@RequestParam Long regNum, @RequestParam Integer id) {
         boolean uniqueRegNum = documentService.uniqueRegNum(regNum, id);
         return ResponseEntity.ok(uniqueRegNum);
     }

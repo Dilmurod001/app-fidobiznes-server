@@ -21,11 +21,11 @@ public class FormDocumentDto {
 
     @NotNull(message = "regNum empty !")
     @Length(max = 20)
-    private String regNum;
+    private Long regNum;
 
     @NotNull(message = "sendDocNum empty !")
     @Length(max = 20)
-    private String sendDocNum;
+    private Long sendDocNum;
 
     @Length(max = 1000)
     private String descriptionReference;

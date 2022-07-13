@@ -39,13 +39,13 @@ public class DocumentService {
         formDoc.setId(rs.getInt("id"));
         formDoc.setAccess(rs.getBoolean("access"));
         formDoc.setCardControl(rs.getBoolean("card_control"));
-        formDoc.setRegNum(rs.getString("reg_num"));
+        formDoc.setRegNum(rs.getLong("reg_num"));
         formDoc.setExpireDate(rs.getDate("expire_date"));
         formDoc.setRegDate(rs.getDate("reg_date"));
         formDoc.setRegDateStr(rs.getString("reg_date_str"));
         formDoc.setSendDate(rs.getDate("send_date"));
         formDoc.setSendDateStr(rs.getString("send_date_str"));
-        formDoc.setSendDocNum(rs.getString("send_doc_num"));
+        formDoc.setSendDocNum(rs.getLong("send_doc_num"));
         formDoc.setDescriptionReference(rs.getString("description_reference"));
         formDoc.setTheme(rs.getString("theme"));
         formDoc.setDeliveryType(rs.getString("name"));
@@ -506,7 +506,7 @@ public class DocumentService {
         }
     }
 
-    public boolean uniqueRegNum(String num, Integer id) {
+    public boolean uniqueRegNum(Long num, Integer id) {
         try {
             boolean bool = false;
             if (id == 0) {
@@ -542,7 +542,7 @@ public class DocumentService {
 
                 query.append(" where ");
 
-                if (filterDto.getRegNum() != null && !filterDto.getRegNum().equals("")) {
+                if (filterDto.getRegNum() != null) {
                     query
                             .append(" f.reg_num ilike '")
                             .append(filterDto.getRegNum())
@@ -626,7 +626,7 @@ public class DocumentService {
                             .append(baseOperator);
                     filterMark.setDescriptionReference("on");
                 }
-                if (filterDto.getSendDocNum() != null && !filterDto.getSendDocNum().equals("")) {
+                if (filterDto.getSendDocNum() != null) {
                     query.append(" f.send_doc_num ilike '")
                             .append(filterDto.getSendDocNum())
                             .append("%' ")
@@ -650,35 +650,75 @@ public class DocumentService {
     public ApiResponse search(String value) {
         try {
             List<FormDocSort> formDocSortList = new ArrayList<>();
-            List<FormDocument> list = formDocumentRepository.findAllByThemeContainingIgnoreCaseOrRegNumContainingOrSendDocNumContainingOrRegDateStrContainingIgnoreCaseOrSendDateStrContainingIgnoreCaseOrDocSender_NameContainingIgnoreCaseAndDocSender_ActiveOrDeliveryType_NameContainingIgnoreCaseAndDeliveryType_ActiveOrderByRegDateDesc(value, value, value, value, value, value, true, value, true);
+            List<FormDocument> list = new ArrayList<>();
 
-            for (FormDocument formDocument : list) {
-                FormDocSort formDocSort = new FormDocSort();
-                if (formDocument.getDescriptionReference() != null) {
-                    formDocSort.setDescriptionReference(formDocument.getDescriptionReference());
-                }
-                formDocSort.setAccess(formDocument.getAccess());
-                formDocSort.setCardControl(formDocument.getCardControl());
-                if (formDocument.getAttachment() != null) {
-                    formDocSort.setAttachmentId(formDocument.getAttachment().getId());
-                }
-                formDocSort.setSendDate(formDocument.getSendDate());
-                formDocSort.setSendDateStr(formDocument.getSendDateStr());
-                formDocSort.setDeliveryType(formDocument.getDeliveryType().getName());
-                formDocSort.setSendDocNum(formDocument.getSendDocNum());
-                formDocSort.setRegDate(formDocument.getRegDate());
-                formDocSort.setRegDateStr(formDocument.getRegDateStr());
-                formDocSort.setId(formDocument.getId());
-                formDocSort.setTheme(formDocument.getTheme());
-                formDocSort.setSenderName(formDocument.getDocSender().getName());
-                formDocSort.setRegNum(formDocument.getRegNum());
-                if (formDocument.getExpireDate() != null) {
-                    formDocSort.setExpireDate(formDocument.getExpireDate());
-                }
+            String baseOperator = " or ";
+            StringBuilder query = new StringBuilder()
+                    .append("select d.name , doc.name,f.attachment_id,f.access,f.card_control,f.reg_num,f.expire_date,f.reg_date, f.reg_date_str,f.send_date,send_date_str,f.send_doc_num,f.description_reference,f.theme, f.id from form_document f join delivery_type d  on f.delivery_type_id = d.id join doc_sender doc on f.doc_sender_id = doc.id");
 
-                formDocSortList.add(formDocSort);
-            }
-            return new ApiResponse("Ok !", true, formDocSortList);
+            query.append(" where ");
+
+            query
+                    .append(" CAST(f.reg_num as text) like '%")
+                    .append(value)
+                    .append("%' ")
+                    .append(baseOperator)
+                    .append("CAST(f.send_doc_num as text) like '%")
+                    .append(value)
+                    .append("%' ")
+                    .append(baseOperator)
+                    .append("upper(f.theme) like upper(concat('%")
+                    .append(value)
+                    .append("%' ))")
+                    .append(baseOperator)
+                    .append("upper(f.reg_date_str) like upper(concat('%")
+                    .append(value)
+                    .append("%' ))")
+                    .append(baseOperator)
+                    .append("upper(send_date_str) like upper(concat('%")
+                    .append(value)
+                    .append("%' ))")
+                    .append(baseOperator)
+                    .append("upper(d.name) like upper(concat('%")
+                    .append(value)
+                    .append("%' ))")
+                    .append(baseOperator)
+                    .append("upper(doc.name) like upper(concat('%")
+                    .append(value)
+                    .append("%' ))")
+                    .append(baseOperator);
+            String substring = query.substring(0, query.length() - baseOperator.length());
+            substring = substring + ";";
+            List<FormDocSort> formDocSorts = jdbcTemplate.query(substring, rowMapper);
+
+//                list = formDocumentRepository.findAllByThemeContainingIgnoreCaseOrRegNumContainingOrSendDocNumContainingOrRegDateStrContainingIgnoreCaseOrSendDateStrContainingIgnoreCaseOrDocSender_NameContainingIgnoreCaseAndDocSender_ActiveOrDeliveryType_NameContainingIgnoreCaseAndDeliveryType_ActiveOrderByRegDateDesc(value, value, value, value, value, value, true, value, true);
+//            for (FormDocument formDocument : list) {
+//                FormDocSort formDocSort = new FormDocSort();
+//                if (formDocument.getDescriptionReference() != null) {
+//                    formDocSort.setDescriptionReference(formDocument.getDescriptionReference());
+//                }
+//                formDocSort.setAccess(formDocument.getAccess());
+//                formDocSort.setCardControl(formDocument.getCardControl());
+//                if (formDocument.getAttachment() != null) {
+//                    formDocSort.setAttachmentId(formDocument.getAttachment().getId());
+//                }
+//                formDocSort.setSendDate(formDocument.getSendDate());
+//                formDocSort.setSendDateStr(formDocument.getSendDateStr());
+//                formDocSort.setDeliveryType(formDocument.getDeliveryType().getName());
+//                formDocSort.setSendDocNum(formDocument.getSendDocNum());
+//                formDocSort.setRegDate(formDocument.getRegDate());
+//                formDocSort.setRegDateStr(formDocument.getRegDateStr());
+//                formDocSort.setId(formDocument.getId());
+//                formDocSort.setTheme(formDocument.getTheme());
+//                formDocSort.setSenderName(formDocument.getDocSender().getName());
+//                formDocSort.setRegNum(formDocument.getRegNum());
+//                if (formDocument.getExpireDate() != null) {
+//                    formDocSort.setExpireDate(formDocument.getExpireDate());
+//                }
+//
+//                formDocSortList.add(formDocSort);
+//            }
+            return new ApiResponse("Ok !", true, formDocSorts);
 
         } catch (Exception e) {
             return new ApiResponse(MessageService.getMessage("INTERNAL_SERVER_ERROR"), false);

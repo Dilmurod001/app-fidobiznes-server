@@ -23,8 +23,8 @@ public class FormDocSort {
     private String sendDateStr;
     private Date sendDateEnd;
     private Boolean cardControl;
-    private String regNum;
-    private String sendDocNum;
+    private Long regNum;
+    private Long sendDocNum;
     private String descriptionReference;
     private String theme;
 

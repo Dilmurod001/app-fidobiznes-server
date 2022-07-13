@@ -33,10 +33,10 @@ public class FormDocument {
     private Boolean cardControl;
 
     @Column(length = 20, nullable = false, unique = true)
-    private String regNum;
+    private Long regNum;
 
     @Column(length = 20, nullable = false)
-    private String sendDocNum;
+    private Long sendDocNum;
 
     @Column(length = 1000)
     private String descriptionReference;
