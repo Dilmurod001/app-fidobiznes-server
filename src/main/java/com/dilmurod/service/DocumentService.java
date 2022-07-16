@@ -529,7 +529,7 @@ public class DocumentService {
             FilterMark filterMark = new FilterMark();
 
 //            if (filterDto != null){
-            if (filterDto.getRegNum() == null && filterDto.getSendDocNum() == null && filterDto.getSendDate() == null && filterDto.getTheme() == null && filterDto.getRegDate() == null && filterDto.getDeliveryTypeId() == null && filterDto.getCorrespondentId() == null && filterDto.getDescriptionReference() == null && filterDto.getRegDateEnd() == null && filterDto.getSendDateEnd() == null) {
+            if (filterDto.getRegNum() == null && filterDto.getSendDocNum() == null && filterDto.getSendDate() == null && filterDto.getTheme() == null && filterDto.getRegDate() == null && filterDto.getDeliveryTypeId() == null && filterDto.getCorrespondentId() == null && filterDto.getRegDateEnd() == null && filterDto.getSendDateEnd() == null) {
                 String s = ("select d.name , doc.name,f.attachment_id,f.access,f.card_control,f.reg_num,f.expire_date,f.reg_date,f.reg_date_str,f.send_date_str ,f.send_date,f.send_doc_num,f.description_reference,f.theme, f.id from form_document f join delivery_type d  on f.delivery_type_id = d.id join doc_sender doc on f.doc_sender_id = doc.id order by f.reg_date desc ;");
                 formDocSorts = jdbcTemplate.query(s, rowMapper);
                 return new ApiResponse("Ok !", true, formDocSorts);
@@ -619,13 +619,13 @@ public class DocumentService {
                             .append(baseOperator);
                     filterMark.setDeliveryType("on");
                 }
-                if (filterDto.getDescriptionReference() != null && !filterDto.getDescriptionReference().isEmpty()) {
-                    query.append(" f.description_reference ilike '")
-                            .append(filterDto.getDescriptionReference())
-                            .append("%' ")
-                            .append(baseOperator);
-                    filterMark.setDescriptionReference("on");
-                }
+//                if (filterDto.getDescriptionReference() != null && !filterDto.getDescriptionReference().isEmpty()) {
+//                    query.append(" f.description_reference ilike '")
+//                            .append(filterDto.getDescriptionReference())
+//                            .append("%' ")
+//                            .append(baseOperator);
+//                    filterMark.setDescriptionReference("on");
+//                }
                 if (filterDto.getSendDocNum() != null) {
                     query.append(" CAST(f.send_doc_num as text) ilike '")
                             .append(filterDto.getSendDocNum())
